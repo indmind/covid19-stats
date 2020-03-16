@@ -4,9 +4,9 @@
     <br />
     <h2>Global Statistics</h2>
     <stats
-      :confirmed="this.$store.state.stats.confirmed.value"
-      :deaths="this.$store.state.stats.deaths.value"
-      :recovered="this.$store.state.stats.recovered.value"
+      :confirmed="stats.confirmed.value"
+      :deaths="stats.deaths.value"
+      :recovered="stats.recovered.value"
     />
     <br />
     <h2>Country Statistics</h2>
@@ -18,11 +18,16 @@
 import Stats from "./components/Stats.vue";
 import CountryStats from "./components/CountryStats.vue";
 
+import { mapState } from "vuex";
+
 export default {
   name: "App",
   components: {
     Stats,
     CountryStats
+  },
+  computed: {
+    ...mapState(["stats"])
   },
   mounted() {
     this.$store.dispatch("loadGlobalStats");

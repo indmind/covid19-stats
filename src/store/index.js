@@ -6,7 +6,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    test: "Hello",
     stats: {
       confirmed: { value: 0 },
       deaths: { value: 0 },
@@ -22,29 +21,47 @@ export default new Vuex.Store({
     statsError: false,
     countryStatsError: false
   },
-  mutations: {},
+  mutations: {
+    setStats(state, stats) {
+      state.stats = stats;
+    },
+    setCountries(state, countries) {
+      state.countries = countries;
+    },
+    setSelectedCountry(state, country) {
+      state.selectedCountry = country;
+    },
+    setCountryError(state, countryStatsError) {
+      if (!countryStatsError) {
+        state.countryStatsError = false;
+        return;
+      }
+
+      state.countryStatsError = countryStatsError;
+    }
+  },
   actions: {
     loadGlobalStats() {
       axios.get("https://covid19.mathdro.id/api/").then(response => {
-        this.state.stats = response.data;
+        this.commit("setStats", response.data);
       });
     },
     loadCountries() {
       axios.get("https://covid19.mathdro.id/api/countries").then(response => {
-        this.state.countries = response.data.countries;
+        this.commit("setCountries", response.data.countries);
       });
     },
     setCountry(_, country) {
-      this.state.selectedCountry = country;
-      this.state.countryStatsError = false;
+      this.commit("setSelectedCountry", country);
+      this.commit("setCountryError", false);
 
       axios
         .get(`https://covid19.mathdro.id/api/countries/${country}`)
         .then(response => {
-          this.state.selectedCountryStats = response.data;
+          this.commit("setSelectedCountry", response.data);
         })
         .catch(error => {
-          this.state.countryStatsError = error;
+          this.commit("setCountryError", error);
         });
     }
   },

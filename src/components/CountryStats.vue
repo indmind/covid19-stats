@@ -8,15 +8,15 @@
     >
     </model-select>
 
-    <p v-show="this.$store.state.countryStatsError">
-      {{ this.$store.state.countryStatsError.message }}
+    <p v-show="countryStatsError">
+      {{ countryStatsError }}
     </p>
 
     <stats
-      v-show="!this.$store.state.countryStatsError"
-      :confirmed="this.$store.state.selectedCountryStats.confirmed.value"
-      :deaths="this.$store.state.selectedCountryStats.deaths.value"
-      :recovered="this.$store.state.selectedCountryStats.recovered.value"
+      v-show="!countryStatsError"
+      :confirmed="selectedCountryStats.confirmed.value"
+      :deaths="selectedCountryStats.deaths.value"
+      :recovered="selectedCountryStats.recovered.value"
     />
   </div>
 </template>
@@ -25,6 +25,8 @@
 import { ModelSelect } from "vue-search-select";
 
 import Stats from "@/components/Stats.vue";
+
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -35,23 +37,21 @@ export default {
     this.$store.dispatch("loadCountries");
     this.$store.dispatch("setCountry", "ID");
   },
+  data() {
+    return { currentSelectedCountry: "ID" };
+  },
   computed: {
-    selectedCountry() {
-      return this.$store.state.selectedCountry;
-    },
     countries() {
       return Object.entries(
         this.$store.state.countries
       ).map(([country, code]) => ({ value: code, text: country }));
-    }
+    },
+    ...mapState(["countryStatsError", "selectedCountryStats"])
   },
   watch: {
     currentSelectedCountry(country) {
       this.$store.dispatch("setCountry", country);
     }
-  },
-  data() {
-    return { currentSelectedCountry: "ID" };
   }
 };
 </script>
