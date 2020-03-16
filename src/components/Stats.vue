@@ -2,17 +2,17 @@
   <div id="stats">
     <div class="stat-item box-confirmed">
       <h3>Confirmed</h3>
-      <p>{{ confirmed }}</p>
+      <p>{{ confirmed | formatNumber }}</p>
     </div>
 
     <div class="stat-item box-deaths">
       <h3>Deaths</h3>
-      <p>{{ deaths }}</p>
+      <p>{{ deaths | formatNumber }}</p>
     </div>
 
     <div class="stat-item box-recovered">
       <h3>Recovered</h3>
-      <p>{{ recovered }}</p>
+      <p>{{ recovered | formatNumber }}</p>
     </div>
   </div>
 </template>
