@@ -1,4 +1,4 @@
-# corona
+# Covid-19 Statistics
 
 ## Project setup
 ```
