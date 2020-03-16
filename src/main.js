@@ -3,6 +3,8 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import store from "./store";
 
+import "vue-search-select/dist/VueSearchSelect.css";
+
 Vue.config.productionTip = false;
 
 new Vue({
