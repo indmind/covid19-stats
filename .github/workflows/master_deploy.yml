@@ -28,6 +28,8 @@ jobs:
           git config --global user.name  ${{secrets.GITHUB_USERNAME}}
 
           git remote set-url origin https://${{secrets.GITHUB_PERSONAL_ACCESS_TOKEN}}@github.com/covid19-stats.git
+
+          ssh -T git@github.com
       - name: Deploy to GH Pages
         run: ./deploy.sh
     env:
