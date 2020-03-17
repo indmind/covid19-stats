@@ -29,7 +29,15 @@ jobs:
 
           git remote set-url origin https://${{secrets.GITHUB_USERNAME}}:${{secrets.GITHUB_PERSONAL_ACCESS_TOKEN}}@github.com/covid19-stats.git
           
-      - name: Deploy to GH Pages
-        run: ./deploy.sh
+      - name: Build for production
+        run: npm run build
+      - name: Deploy to GH pages
+        run: |
+          git checkout --orphan gh-pages
+
+          git --work-tree dist add --all
+          git --work-tree dist commit -m "deploy"
+
+          git push origin HEAD:gh-pages --force
     env:
       CI: true
